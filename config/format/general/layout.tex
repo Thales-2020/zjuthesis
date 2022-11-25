@@ -92,8 +92,8 @@
   open
 }
 
-% TOC set up list of algorithms to use `tocloft` style
-% See: https://tex.stackexchange.com/a/147199
+%TOC set up list of algorithms to use `tocloft` style
+%See: https://tex.stackexchange.com/a/147199
 \makeatletter
 \begingroup
   \let\newcounter\@gobble
@@ -154,6 +154,10 @@
 \setlength{\cftsubsubsecindent} {6em}
 \setlength{\cftbeforechapskip}  {0em}
 
+\setlength{\cftaftertoctitleskip} {1.5em}
+\setlength{\cftafterloftitleskip} {1.5em}
+\setlength{\cftafterlottitleskip} {1.5em}
+
 % graduate template listoffigures/tables
 \ifthenelse{\equal{\Degree}{graduate}}
 {
@@ -169,7 +173,7 @@
     \settowidth{\listoftablesnamelen}{\cfttabpresnum\cfttabaftersnum}
     \addtolength{\cfttabnumwidth}{\listoftablesnamelen}
 
-    % listofalgorithms
+    % % listofalgorithms
     \renewcommand{\cftalgotocloftpresnum}{\algotocloftname\enspace}
     \newlength{\listofalgotocloftsnamelen}
     \settowidth{\listofalgotocloftsnamelen}{\cftalgotocloftpresnum\cftalgotocloftaftersnum}

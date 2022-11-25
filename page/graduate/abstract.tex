@@ -1,5 +1,93 @@
 \cleardoublepage
-\chapternonum{摘要}
+
+\vspace{-6mm}
+\chapternonumCenterChnAbstract{摘\ \ \ \ 要}
+\vspace{3mm}
+
+深度卷积神经网络在计算机视觉各个领域都取得了日益提升的突破性进展，然而对于某些特定场景下的应用则是存在很多问题，包括应用需求和硬件设施（包括算法数据存储和计算成本等），
+这些问题都对深度神经网络的进一步发展起到阻碍作用。像是在多目标检测领域，大量应用 RGB 数据的监控算法在光照不好的情况下性能会下降，同时还存在隐私问题，并不适合对于隐私比较敏感的场所。
+因此我们选择利用深度图像进行研究，可以很好地避免外部条件的影响，像是光照和天气变化等，并且深度图像只获取人体目标的外部深度特征，并不会暴露大量隐私，在越来越重视隐私保护的今天，
+其需求也是不言而喻的。除此之外，是在如今这个万物进行移动端和微服务方向发展的社会趋势下，如何利用移动端和智能芯片有限的硬件资源进行算法的移植应用，也是一个急待突破的难点，
+所以我们采用模型轻量化的方式进行模型参数计算过程的优化，并且在算法部署在硬件开发板的过程中通过 TensorRT 量化的方式进一步优化，使得在整个监测系统可以平稳地运行在移动端开发板上。
+针对这些问题，本文总结现有的各种多目标检测算法和多目标追踪算法以及他们对应的优缺点，并着重研究其中的关键技术，而后对整个模型进行轻量化研究和量化加速，从而成功部署在硬件设备上。
+具体地，本文的研究内容和主要贡献如下：
+
+（1）提出一种基于深度图像特征的多目标检测算法。本文通过研究发现，在现代大部分的多目标检测神经网络中普遍使用 RGB 图像特征，
+而 RGB 图像特征的局限性以及其受外界环境影响的变化性会极大地影响多目标检测算法的效率和准确度。对此，本文从图像数据获取角度重新思考相关问题，
+提出了一种基于深度图像的深度神经网络多目标检测算法。该算法只使用深度图像特征，利用不同个体间深度特征的差异来进行目标检测任务，深度图像不会受外部光照等变化影响，
+在阴暗环境下依旧可以不受影响地完成既定任务，完全避免了 RGB 图像带来的相关问题。而且 TOF 图像传感器所获得数据是单通道图像，只具有图像内部各点的深度信息，而无其他人体相关外观特征，
+极大地保护了监控目标群体的隐私。经多个数据集和现场验证，该算法可以很好地完成多目标检测任务，且其具有很高的鲁棒性和普适性。
+
+（2）提出一种基于深度图像特征的多目标追踪算法。在通过前文涉及的多目标检测算法处理后会获得检测目标的相关位置信息等，此后利用多目标追踪算法来将轨迹与检测匹配。
+在实时多目标追踪算法中应用较为广泛的 DeepSort 算法，其基于马氏距离也称协方差距离，来对轨迹进行筛选，
+并经余弦距离对经 re-id 模型处理的检测和轨迹之间的外观特征进行筛选，滤除不匹配的轨迹，最终利用级联匹配的方式并依据最近匹配成功时间完成二者之间的关联，并为不符合的检测生成一个新的潜在轨迹。
+而在本文研究过程中发现，由于我们利用顶部视角的深度图像来避免多物体之间的遮挡情况，那么这个外观模型特征之间的对比其实是冗余的算法步骤，所以我们可以自由的把控外观模型的判定置信度，
+从而减少部分计算过程，但却不会影响结果。故我们通过在 DeepSort 中设置外观特征模型的应用程度，更好地利用深度图像特征的优势，从而减少整体算法的计算量，
+更好的完成整个监测系统的研究设计。
+
+（3）众所周知，深度卷积神经网络算法所需的硬件存储条件和算力都是极高的，为了解决这个难题并成功部署我们前文研究完成的多目标实时监测算法，本文研究应用了一系列网络加速的方法。
+首先对多种广泛应用的网络模型轻量化工作进行细致的研究和实现，并对比不同轻量化方法对于深度图像特征的适用性和高效性，选取其中最佳方案进行深入研究设计，并应用于我们提出的多目标检测神经网络中。
+而后对硬件开发板底层量化加速原理进行研究，并应用 INT8 量化解决算法加速问题，最终将整个多目标实时监测系统成功部署到 Nvidia Jetson Xavier开发板上，从而完成整个监测系统的开发。
+
+ \ \\
+\textbf{关键词：}多目标检测神经网络；实时多目标追踪算法；深度图像；卷积神经网络轻量化；硬件平台量化加速；实时监测系统
+
 
 \cleardoublepage
-\chapternonum{Abstract}
+
+\vspace{-6mm}
+\chapternonumCenter{Abstract}
+\vspace{3mm}
+
+Deep convolutional networks have been making advanced breakthrough in various fields of computer vision day by day, 
+but when it comes to deployment under some specific backgrounds, there still exist some challenges, including application demands and 
+hardware systems(covering algorithm data storage and computational costs), these problems are barriers against the development in deep convolutional 
+networks. For example, in the Multiple Object Tracking region, lots of detection convolutional networks using RGB data only reach a pretty low 
+performance under circumstances of bad illumination and have privacy problems at the same time, so these algorithms do not fit in the sites requiring 
+privacy. So we choose to start our program with depth data, it can well avoid the affection of external factors, like illumination and weather variation,
+ and the most important thing, depth data only scratch the targets' exterior depth features, 
+it will not expose your private information rather than a bunch of different heights, it's important for a society that requires more privacy than ever.
+Besides, under the tide of everything's transplantation on mobile platforms and microservices, the transplantation of these deep convolutional networks 
+algorithms on infinite smart chips is a problem waiting for being broken through, so we try different quantization methods for convolutional networks 
+to cut down the computation of our algorithm, and quantizing the whole model on a Xavier evaluation board for less computation to 
+make the whole surveillance system stably operating on the evaluation board. In response to these problems, this paper summarizes different multiple 
+target detection and tracking algorithms and their advantages and disadvantages respectively, takes our hands on the most important technology among 
+them specifically, and applying model lightweight and quantizing on the whole model, and succeeds deploying the surveillance system on the 
+evaluation board and do the foreshadowing for researches of smart chips embedding problem. Specifically, the research contents 
+and main contributions of this paper are as follows:
+
+(1) Propose a multiple targets detection algorithm based on depth pattern features. This paper finds that most modern multiple targets detection 
+algorithms are based on RGB data features through lots of surveys, but the limitations of RGB data and its instability when it comes to different 
+circumstances will exert a strong influence on the performance and precision of detecting algorithms. 
+In this regard, this paper rethinks the detection problem in terms of input data and proposes a multiple targets detection algorithm based on a deep 
+neural network with depth data. This algorithm only uses depth pattern features, and using the differences between various individuals to achieve 
+the detection, depth data will not be influenced by external factors like illumination, and it can well achieve detection unaffected by darkness, 
+totally avoiding the problems with RGB data. Besides, a TOF camera only scratches the depth information of the target's body, 
+its pixels on the image are just height without other appearance features, which protects the privacy of targets under surveillance. 
+With experiments on different datasets and in our laboratory, this algorithm can get multiple targets detection tasks well done, 
+and achieve great robustness and universality.
+
+(2) Propose a multiple targets tracking algorithm based on depth pattern features. After getting relative detection location information by processing 
+depth data via the previous multiple targets detection algorithm, we can use multiple targets tracking algorithm to match the existing tracks and 
+new arrival detections. There is a multiple targets tracking algorithm extensively used called DeepSort, 
+it firstly uses Mahalanobis distance to filter unqualified tracks, 
+then applies cosine distance between arrival detections and existing tracks to filter the unmatched tracks again, 
+finally using matching cascade based on every track's last matched age to do measurement association between them, 
+and create a new potential track for the unmatched detections. But in our research, because we use top-view depth data, 
+we can avoid the multiple objects occlusion problem originally, so we can set different credence levels of this module or 
+even cut off this redundant cosine distance filter module based on pre-trained(re-id) networks to reduce lots of computations without 
+affecting the tracking performance. So we can make better use of the advantages of depth data by setting our credence level of re-id module in DeepSort, 
+thereby reducing the computations of the whole tracking algorithm to achieve a better surveillance system.
+
+(3) As we all know, deep neural network algorithms need any amount of memory storage and high computational property chips, 
+we apply a series of network acceleration algorithms to make this real-time surveillance system succeed in deploying on the evaluation board. 
+At first, we research and redo various widely applied network lightweight algorithms deeply, make a detailed assessment of the 
+robustness and universality of all these algorithms when applied with depth data on our scene, and choose the best algorithm to study 
+deeper and apply it in our multiple targets detection systems. Then we consider a quantization method to accelerate the evaluation board and 
+deploy the whole real-time surveillance system on the Nvidia jetson Xavier evaluation board.
+
+ \ \\
+\textbf{Keywords: }Multiple targets detection neural network; Multiple targets real-time tracking algorithms; depth images; neural network quantization; hardware platform quantization; real-time surveillance system 
+
+
+

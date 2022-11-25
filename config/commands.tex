@@ -102,6 +102,42 @@
         \checkandinput{body}{#1}
     }
 
+    \newcommand{\chapternonumCenterChnAbstract}[1]
+    {
+        \phantomsection
+        \addcontentsline{toc}{chapter}{摘要}
+        % \markboth{#1}{#1}
+        \begin{center}
+        	\bfseries \zihao{3} #1	
+        \end{center}
+	    \setcounter{section}{0}
+        % \chapter*{#1}
+    }
+
+    \newcommand{\chapternonumCenterChnAck}[1]
+	{
+		\phantomsection
+		\addcontentsline{toc}{chapter}{致谢}
+		% \markboth{#1}{#1}
+		\begin{center}
+			\bfseries \zihao{3} #1	
+		\end{center}
+		\setcounter{section}{0}
+		% \chapter*{#1}
+	}
+
+    \newcommand{\chapternonumCenter}[1]
+	{
+		\phantomsection
+		\addcontentsline{toc}{chapter}{#1}
+		% \markboth{#1}{#1}
+		\begin{center}
+			\bfseries \zihao{3} #1	
+		\end{center}
+		\setcounter{section}{0}
+		% \chapter*{#1}
+	}
+
     \newcommand{\chapternonum}[1]
     {
         \phantomsection
